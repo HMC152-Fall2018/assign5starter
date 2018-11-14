@@ -28,11 +28,11 @@ You may work by yourself or in groups of 2. All work in a group should be done w
 Outside resources: You may use any pytorch and fastai documentation and general web resources on using the two libraries. You should not look at the source code of PyTorch's GRU. 
 
 ### What to turn in
-A notebook named Assignment5.ipynb which is a copy of dickens.ipynb modified to use your new MyGRU class. Please make sure your notebook includes the output of the training loop so I can see the losses.  You can adjust the 2nd parameter of learn.fit from 7 to 5 to reduce the number of epochs that are trained.  You may need to adjust the batch size if you run 
+A notebook named Assignment6.ipynb which is a copy of dickens.ipynb modified to use your new MyGRU class. Please make sure your notebook includes the output of the training loop so I can see the losses.  You can adjust the 2nd parameter of learn.fit from 7 to 5 to reduce the number of epochs that are trained.  If you run out of GPU memory, you'll want to reduce the batch size.
 
 ### Suggestions
 
-* The documentation for nn.GRU is extremely helpful. Pay careful attention to shapes of incoming and outgoing values.
+* The [documentation for nn.GRU](https://pytorch.org/docs/0.3.1/nn.html?highlight=gru#torch.nn.GRU) is extremely helpful. Pay careful attention to shapes of incoming and outgoing values.
 
 * The debugger is your friend.  To use it, import:
 
@@ -52,9 +52,12 @@ And then call ```set_trace()``` wherever you’d like a breakpoint.
     * ```torch.stack```
     * ```torch.unsqueeze```
 
-* You may find it useful to install PyTorch and a CPU-version of PyTorch on your local machine.
-[Here](https://forums.fast.ai/t/fastai-v0-7-install-issues-thread/24652) is a thread on installation.
-To summarize
-
+* Running on a non-GPU machine:
+    * It can be hard to start a GPU instance (the us-west1-b zone seems to run out of GPU instances at some times). You can always
+create a non-GPU instance and reinstall the software (see [GoogleComputeEngineSetup.md](https://github.com/nrhodes/cs152/blob/master/GoogleComputeEngineSetup.md) for details.
+Your notebook will work; training will just be slow.
+    * You may find it useful to install PyTorch and fastai on your local machine.
+This way, you can do all of your implementation of MyGRU without having to spin up a GCE instance. In order to do so, you'll need to
+pick and choose the commands to run from the [GCE install script](https://github.com/nrhodes/cs152/blob/master/bin/GoogleComputeEngineSetup.sh).
 
 
