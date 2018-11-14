@@ -52,5 +52,9 @@ And then call ```set_trace()``` wherever you’d like a breakpoint.
     * ```torch.stack```
     * ```torch.unsqueeze```
 
+* You may find it useful to install PyTorch and a CPU-version of PyTorch on your local machine.
+[Here](https://forums.fast.ai/t/fastai-v0-7-install-issues-thread/24652) is a thread on installation.
+To summarize
+
 
 
