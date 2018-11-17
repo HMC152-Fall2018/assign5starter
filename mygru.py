@@ -12,8 +12,14 @@ class MyGRU(nn.Module):
         self.init_hidden()
         
     def init_hidden(self):
-        # Initialize weights and biases here
-        pass
+        stdv = 1.0 / math.sqrt(self.hidden_size)
+
+        # This initialization helps the speed of learning.
+        # Contrast with doing a normal distribution which learns much
+        # more slowly.
+        nn.init.uniform(self.weight_ih_l0, -stdv, stdv)
+        # Initialize remaining weights and biases here
+        # ...
 
     def forward(self, inp, h_0):
         seq_len = inp.shape[0]
