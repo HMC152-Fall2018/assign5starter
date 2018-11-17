@@ -5,8 +5,8 @@ import unittest
 
 
 # modify this to GRU_CLASS = MyGRU to test *your* class
-GRU_CLASS = mygru.MyGRU
-#GRU_CLASS = torch.nn.GRU
+#GRU_CLASS = mygru.MyGRU
+GRU_CLASS = torch.nn.GRU
 
 class TestGRU(unittest.TestCase):
 
