@@ -70,7 +70,7 @@ class TestGRU(unittest.TestCase):
         self.assertEqual((num_layers * num_directions, bs, hidden_size), h.shape)
         self.assertEqual(53, h[0, 0, 0].item())
 
-    def test_one_hidden_unit(self):
+    def test_multiple_hidden_units_multiple_input_size(self):
         torch.manual_seed(829)  # make this test 100% reproducible
 
         input_size = 2
@@ -147,6 +147,9 @@ class TestGRU(unittest.TestCase):
         self.assertAlmostEqual(h_t[0, 0].item(), h[0, 0, 0].item(), places=5)  # We use assertAlmostEqual for floats
         self.assertAlmostEqual(h_t[1, 0].item(), h[0, 0, 1].item(), places=5)  # We use assertAlmostEqual for floats
         self.assertAlmostEqual(h_t[2, 0].item(), h[0, 0, 2].item(), places=5)  # We use assertAlmostEqual for floats
+
+
+    # Still needed: test for seq_len > 1, and batch_size > 1
 
 if __name__ == '__main__':
     unittest.main()
