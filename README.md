@@ -60,4 +60,11 @@ Your notebook will work; training will just be slow.
 This way, you can do all of your implementation of MyGRU without having to spin up a GCE instance. In order to do so, you'll need to
 pick and choose the commands to run from the [GCE install script](https://github.com/nrhodes/cs152/blob/master/bin/GoogleComputeEngineSetup.sh).
 
+* Take a look at the [source code for Embedding](https://github.com/pytorch/pytorch/blob/v0.3.1/torch/nn/modules/sparse.py), a fairly simple module.
+
+### Starter code
+As of Saturday, November 17, at 2:45 PM, I've created a unit testcase that can be used to see what GRU does, and can also be used to test your implementation.  
+In addition, I've created a skeleton of MyGRU showing the methods, and giving an idea of the inputs and outputs.
+These two files are part of the [assign6starter repository](https://github.com/HMC152-Fall2018/assign6starter); you should be able to just do a ```git pull``` to get them.
+
 
