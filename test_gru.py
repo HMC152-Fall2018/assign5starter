@@ -1,15 +1,22 @@
 import numpy as np
 import torch
+from torch.autograd import Variable
 import mygru
 import unittest
 
+
+# Suggested to run these tests with nosetests
+# If you do that, print statements will be ignored in passing tests (only print
+# in failing tests).
+#
+# You can also run python test_gru.py, but that'll print everything for all tests
+# (passing or failing).
 
 # modify this to GRU_CLASS = MyGRU to test *your* class
 #GRU_CLASS = mygru.MyGRU
 GRU_CLASS = torch.nn.GRU
 
 class TestGRU(unittest.TestCase):
-
     def test_simplest_input_has_right_shapes(self):
         input_size = 1
         hidden_size = 1
@@ -19,8 +26,8 @@ class TestGRU(unittest.TestCase):
         num_directions = 1
         bs = 1  # batch_size
         seq_len = 1
-        inp = torch.Tensor(np.array([[[5]]])) # one input that is 5
-        h_0 = torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size)))
+        inp = Variable(torch.Tensor(np.array([[[5]]]))) # one input that is 5
+        h_0 = Variable(torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size))))
         print("inp", inp, inp.shape)
         print("h_0", h_0, h_0.shape)
 
@@ -39,9 +46,9 @@ class TestGRU(unittest.TestCase):
         num_directions = 1
         bs = 2  # batch_size
         seq_len = 5
-        inp = torch.Tensor(np.zeros((seq_len, bs, input_size)))
+        inp = Variable(torch.Tensor(np.zeros((seq_len, bs, input_size))))
         print("inp", inp, inp.shape)
-        h_0 = torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size)))
+        h_0 = Variable(torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size))))
         print("h_0", h_0, h_0.shape)
         outp, h = gru(inp, h_0)
         print("outp", outp, outp.shape)
@@ -55,20 +62,20 @@ class TestGRU(unittest.TestCase):
         hidden_size = 1
         gru = GRU_CLASS(input_size, hidden_size)
         bias_hh_0 = gru.bias_hh_l0 # Hidden-hidden biases for first layer
-        bias_hh_0[1] = 10000000 # set b_hz to high number so that z will be close to 1
+        bias_hh_0.data[1] = 10000000 # set b_hz to high number so that z will be close to 1
         
         num_layers = 1
         num_directions = 1
         bs = 1  # batch_size
         seq_len = 1
-        inp = torch.Tensor(np.zeros((seq_len, bs, input_size)))
+        inp = Variable(torch.Tensor(np.zeros((seq_len, bs, input_size))))
         inp[0, 0, 0] = 2
-        h_0 = torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size)))
+        h_0 = Variable(torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size))))
         h_0[0, 0, 0] = 53
         outp, h = gru(inp, h_0)
         self.assertEqual((seq_len, bs, num_directions * hidden_size), outp.shape)
         self.assertEqual((num_layers * num_directions, bs, hidden_size), h.shape)
-        self.assertEqual(53, h[0, 0, 0].item())
+        self.assertEqual(53, h.data[0, 0, 0])
 
     def test_multiple_hidden_units_multiple_input_size(self):
         torch.manual_seed(829)  # make this test 100% reproducible
@@ -117,9 +124,9 @@ class TestGRU(unittest.TestCase):
         num_directions = 1
         bs = 1  # batch_size
         seq_len = 1
-        inp = torch.Tensor(np.zeros((seq_len, bs, input_size)))
+        inp = Variable(torch.Tensor(np.zeros((seq_len, bs, input_size))))
         inp[0, 0, 0] = 2
-        h_0 = torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size)))
+        h_0 = Variable(torch.Tensor(np.zeros((num_layers*num_directions, bs, hidden_size))))
         h_0[0, 0, 0] = 1
         h_0[0, 0, 1] = 2
         h_0[0, 0, 2] = 3
@@ -144,9 +151,9 @@ class TestGRU(unittest.TestCase):
         print("outp", outp, outp.shape)
         print("h", h, h.shape)
 
-        self.assertAlmostEqual(h_t[0, 0].item(), h[0, 0, 0].item(), places=5)  # We use assertAlmostEqual for floats
-        self.assertAlmostEqual(h_t[1, 0].item(), h[0, 0, 1].item(), places=5)  # We use assertAlmostEqual for floats
-        self.assertAlmostEqual(h_t[2, 0].item(), h[0, 0, 2].item(), places=5)  # We use assertAlmostEqual for floats
+        self.assertAlmostEqual(h_t.data[0, 0], h.data[0, 0, 0], places=5)  # We use assertAlmostEqual for floats
+        self.assertAlmostEqual(h_t.data[1, 0], h.data[0, 0, 1], places=5)  # We use assertAlmostEqual for floats
+        self.assertAlmostEqual(h_t.data[2, 0], h.data[0, 0, 2], places=5)  # We use assertAlmostEqual for floats
 
 
     # Still needed: test for seq_len > 1, and batch_size > 1
