@@ -1,7 +1,7 @@
 # CS 152
 # Assignment 6
 # November 14, 2018
-##  Due Tuesday, November 4, 2018, 11 PM
+##  Due Tuesday, November 20, 2018, 11 PM
 
 
  
